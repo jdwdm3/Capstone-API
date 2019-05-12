@@ -36,9 +36,43 @@ __*Since each member did not upload their raw CSV files to represent tables, I w
 ![alt text](https://raw.githubusercontent.com/jdwdm3/Capstone-API/master/Images/dependencies.png)
 5. run `npm install`: This will utilize node package manager to read your dependencies, and download them into your `node_modules/` 
 6. Once all node Modules have been succussfully installed, to deploy the API, you need to run `node app.js`
-7. You should see a text printed to standard output that lets you know the API is `listening on port 3000`
+7. If port is in use, `fuser -k 3000/tcp` to kill current process using it
+8. You should see a text printed to standard output that lets you know the API is `listening on port 3000`
 
 Now that the API is running, and I have configured the VM to allow for HTTP requests.  I ran into CORS issues at first, and was able to figure out how to get past them.  To allow `Cross Origin Requests` (CORS), I had to white list two hosts in the header of the response:
 ![alt text](https://raw.githubusercontent.com/jdwdm3/Capstone-API/master/Images/CORS.png)
 
-# Leave this API running to allow data to be served to the User Interface
+#### Leave this API running to allow data to be served to the User Interface
+
+---
+
+## API Code Organization
+
+1. App.js
+- The `app.js` file does all of the heavy lifting.  This file reads the requests and makes decisions on how to handle them, and determines how to populate the response via `routes`
+
+
+2. Routes
+The following routes were set up to deliver necassary data to our User Interface:
+ - LegalMaryJane
+ - OverDoseByStateByYearMaryLegal
+ - OverDoseByStateByYearMaryIllegal
+ - getPerscriberInfo
+ - getPerscriberInfoByState
+ - getPerscriberInfoByProfession
+ - getHepCMidwestDataNegative
+ - getHepCMidwestDataPositive
+ - getMechOfDeath
+
+It should be noted that the only endpoints that were added to this RESTful API are all `GET` endpoints.  Reason being, my teamates were supposed to have modified their data to such a point, the only thing living in our database was data that was ready to be used, no additions, or modifications were supposed to be necassary. However, a lot of modifcations were still needed in order to put data in the proper shape to be consumed by Google-React-Charts.  Majority of the cleaning happened on the API with a various amounts of custom cleaning functions I wrote:
+
+3. Data Cleansing
+ - formatMechOfDeath
+ - formatHepCMidwestData
+ - calculatePercentageChange
+ - cleanMannysData
+ - cleanMannysData2
+ - cleanMannysData3
+
+The naming could have been better of these functions, but each of these helper functions are associated with one of the `get` endpoints above.  If a someone wants to know what the helpers are doing, they can easily trace it to find the route its associated with it.  The naming of the routes was done carefully, since those are the exposed endpoints for anyone to use. The individual cleaning was mostly just reformatting arrays of JSON obejcts, to lists of lists (For some reason, google's charts wanted lists of lists, and not object formmated data, which seems strange to me)
+

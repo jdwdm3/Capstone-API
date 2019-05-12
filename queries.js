@@ -7,6 +7,110 @@ const pool = new Pool({
   port: 5432,
 })
 
+const formatMechOfDeathData = data => {
+  
+  let row1 =[[ 'Year',
+      '995-Gunshot/stabwound(Pre-OTIS)', 'Asphyxiation', 'BluntInjury',
+      'Cardiovascular', 'Drowning', 'DrugIntoxication',
+      'Electrical', 'GunshotWound',
+      'Seizure', 'Sids', 'Stab'
+  ]]
+
+  let Gunshot = 0
+  let Asphyxiation = 0
+  let BluntInjury = 0
+  let Cardiovascular = 0
+  let Drowning = 0
+  let DrugIntoxication = 0
+  let Electrical = 0 
+  let GunshotWound = 0 
+  let Seizure = 0 
+  let Sids = 0 
+  let Stab = 0
+  let year = 1988
+
+  let TravisData = row1
+  let miniList = []
+
+  for(let i=0; i < data.length; i++) {
+
+    if(data[i].Year !== year) {
+        //Populate row
+        miniList.push(String(year))
+        miniList.push(Gunshot)
+        miniList.push(Asphyxiation)
+        miniList.push(BluntInjury)
+        miniList.push(Cardiovascular)
+        miniList.push(Drowning)
+        miniList.push(DrugIntoxication)
+        miniList.push(Electrical)
+        miniList.push(GunshotWound)
+        miniList.push(Seizure)
+        miniList.push(Sids)
+        miniList.push(Stab)
+  
+        //Push mini row onto master set
+        TravisData.push(miniList)
+  
+        //Reset
+        miniList = []
+        Gunshot = 0
+        Asphyxiation = 0
+        BluntInjury = 0
+        Cardiovascular = 0
+        Drowning = 0
+        DrugIntoxication = 0
+        Electrical = 0 
+        GunshotWound = 0 
+        IntracranialHemorrhage = 0
+        Seizure = 0 
+        Sids = 0 
+        Stab = 0
+        year = data[i].Year
+    }
+    
+    switch(data[i].Mechanisms){
+      case '995-Gunshot/stabwound(Pre-OTIS)':
+          Gunshot = Number(data[i].Count)
+        break
+      case 'Asphyxiation':
+          Asphyxiation = Number(data[i].Count)
+        break
+      case 'BluntInjury':
+          BluntInjury = Number(data[i].Count)
+        break
+      case 'Cardiovascular':
+          Cardiovascular = Number(data[i].Count)
+        break
+      case 'Drowning':
+          Drowning = Number(data[i].Count)
+        break
+      case 'DrugIntoxication':
+          DrugIntoxication = Number(data[i].Count)
+        break
+      case 'Electrical':
+          Electrical = Number(data[i].Count)
+        break
+      case 'GunshotWound':
+          GunshotWound = Number(data[i].Count)
+        break
+      case 'Seizure':
+          Seizure = Number(data[i].Count)
+        break
+      case 'Sids':
+        Sids = Number(data[i].Count)
+        break
+      case 'Stab':
+        Stab = Number(data[i].Count)
+        break
+      default:
+        console.log(data[i])
+    }
+  }
+
+  return TravisData
+}
+
 const formatHepCMidwestData = data => {
   let HepCData = [['Year','Missouri','Iowa','Ohio','Nebraska','Indiana','Kansas','Minnesota','South Dakota','North Dakota']]
   let miniList = []
@@ -300,109 +404,7 @@ const getMechOfDeath = (request, response) => {
   })
 }
 
-const formatMechOfDeathData = data => {
-  
-  let row1 =[[ 'Year',
-      '995-Gunshot/stabwound(Pre-OTIS)', 'Asphyxiation', 'BluntInjury',
-      'Cardiovascular', 'Drowning', 'DrugIntoxication',
-      'Electrical', 'GunshotWound',
-      'Seizure', 'Sids', 'Stab'
-  ]]
 
-  let Gunshot = 0
-  let Asphyxiation = 0
-  let BluntInjury = 0
-  let Cardiovascular = 0
-  let Drowning = 0
-  let DrugIntoxication = 0
-  let Electrical = 0 
-  let GunshotWound = 0 
-  let Seizure = 0 
-  let Sids = 0 
-  let Stab = 0
-  let year = 1988
-
-  let TravisData = row1
-  let miniList = []
-
-  for(let i=0; i < data.length; i++) {
-
-    if(data[i].Year !== year) {
-        //Populate row
-        miniList.push(String(year))
-        miniList.push(Gunshot)
-        miniList.push(Asphyxiation)
-        miniList.push(BluntInjury)
-        miniList.push(Cardiovascular)
-        miniList.push(Drowning)
-        miniList.push(DrugIntoxication)
-        miniList.push(Electrical)
-        miniList.push(GunshotWound)
-        miniList.push(Seizure)
-        miniList.push(Sids)
-        miniList.push(Stab)
-  
-        //Push mini row onto master set
-        TravisData.push(miniList)
-  
-        //Reset
-        miniList = []
-        Gunshot = 0
-        Asphyxiation = 0
-        BluntInjury = 0
-        Cardiovascular = 0
-        Drowning = 0
-        DrugIntoxication = 0
-        Electrical = 0 
-        GunshotWound = 0 
-        IntracranialHemorrhage = 0
-        Seizure = 0 
-        Sids = 0 
-        Stab = 0
-        year = data[i].Year
-    }
-    
-    switch(data[i].Mechanisms){
-      case '995-Gunshot/stabwound(Pre-OTIS)':
-          Gunshot = Number(data[i].Count)
-        break
-      case 'Asphyxiation':
-          Asphyxiation = Number(data[i].Count)
-        break
-      case 'BluntInjury':
-          BluntInjury = Number(data[i].Count)
-        break
-      case 'Cardiovascular':
-          Cardiovascular = Number(data[i].Count)
-        break
-      case 'Drowning':
-          Drowning = Number(data[i].Count)
-        break
-      case 'DrugIntoxication':
-          DrugIntoxication = Number(data[i].Count)
-        break
-      case 'Electrical':
-          Electrical = Number(data[i].Count)
-        break
-      case 'GunshotWound':
-          GunshotWound = Number(data[i].Count)
-        break
-      case 'Seizure':
-          Seizure = Number(data[i].Count)
-        break
-      case 'Sids':
-        Sids = Number(data[i].Count)
-        break
-      case 'Stab':
-        Stab = Number(data[i].Count)
-        break
-      default:
-        console.log(data[i])
-    }
-  }
-
-  return TravisData
-}
 
 module.exports ={
   getMaryJaneData,
