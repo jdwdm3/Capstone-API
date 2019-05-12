@@ -35,3 +35,10 @@ __*Since each member did not upload their raw CSV files to represent tables, I w
 4. This API was built using node, you can observe the dependencies we need inside of __package.json__:
 ![alt text](https://raw.githubusercontent.com/jdwdm3/Capstone-API/master/Images/dependencies.png)
 5. run `npm install`: This will utilize node package manager to read your dependencies, and download them into your `node_modules/` 
+6. Once all node Modules have been succussfully installed, to deploy the API, you need to run `node app.js`
+7. You should see a text printed to standard output that lets you know the API is `listening on port 3000`
+
+Now that the API is running, and I have configured the VM to allow for HTTP requests.  I ran into CORS issues at first, and was able to figure out how to get past them.  To allow `Cross Origin Requests` (CORS), I had to white list two hosts in the header of the response:
+![alt text](https://raw.githubusercontent.com/jdwdm3/Capstone-API/master/Images/CORS.png)
+
+# Leave this API running to allow data to be served to the User Interface
