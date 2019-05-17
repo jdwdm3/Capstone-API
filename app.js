@@ -6,7 +6,18 @@ var app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// Add headers
+/*
+
+  The App.js file directs all incoming and outgoing traffic.
+
+  1.) Determines who made the request
+  2.) Allows CORS to pass data back to either of the white listes Addresses
+  3.) Determines route
+  4.) Populates response with data from Database
+  5.) Sends response back to whom it was requested
+
+*/
+
 app.use(function (req, res, next) {
 
     var whitelist = [

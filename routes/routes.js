@@ -1,5 +1,16 @@
 var queries = require('../queries')
 
+/*
+
+  The functionality of this REST Api lies here;
+
+  All routes represent a different visulization that is on the UI
+
+  They are all GET routes, since the data was supposed to be stored in a way that
+  made it easy to quickly query, and pass off to the Ui
+
+*/
+
 var appRouter = function (app) {
   app.get("/LegalMaryJane", function(request, response) {
     queries.getMaryJaneData(request, response)

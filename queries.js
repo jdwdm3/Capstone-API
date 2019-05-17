@@ -7,6 +7,29 @@ const pool = new Pool({
   port: 5432,
 })
 
+/*
+  These queries can be searched for in this project by following routes down.
+
+  Each route, has one query with it.  Some queries have a formatting function on the values retrieved from
+  the database.
+
+  for example:
+
+
+  response.status(200).json(cleanMannysData(results.rows))
+  
+
+  Before the values are sent back with a status code of 200, and the data, it is first run through a function:
+  cleanMannysData.
+
+  Data is either sent like that, or:
+
+    response.status(200).json((results.rows))
+
+  No cleaning necassary.
+
+*/
+
 const formatMechOfDeathData = data => {
   
   let row1 =[[ 'Year',
